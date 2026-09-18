@@ -1,0 +1,580 @@
+Usage: spectra-cn.sh [-c] <read.meryl> <asm1.fasta> [asm2.fasta] out-prefix
+	-c		: [OPTIONAL] input meryl databases are homopolymer compressed, while asm.fasta isn't
+	<read.meryl>	: Generated with meryl count from i.e. illumina wgs reads
+	<asm1.fasta>	: haplotype 1 assembly. gzipped or not
+	[asm2.fasta]	: haplotype 2 assembly. gzipped or not
+	<out-prefix>: output prefix. Required.
+		When only <asm1.fasta> is given, results will be generated in haploid mode.
+		When <asm2.fasta> is given, results will be generated for each asm1 asm2 haploid assembly and asm1+asm2 diploid assembly.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opLessThan
+    RufipogonA.meryl
+    print to (stdout)
+Detected k-mer size 21
+
+No modules available..
+# Get solid k-mers
+Generate RufipogonA.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /home/agostino/miniconda3/envs/merqury_env/share/merqury/eval/kmerHistToPloidyDepth.jar RufipogonA.hist > RufipogonA.hist.ploidy
+Processing file RufipogonA.hist
+Start sampling here: 21, 100922.0
+Estimated haploid peak here: 55, 9455479.0
+Next max here: 59, 1.064047E7
+Next min here: 93, 112946.0
+Next max here: 116, 337915.0
+Next min here: 118, 334871.0
+Next max here: 119, 335276.0
+Stop sampling here: 141, 97279.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	21
+1	55	57
+2	59	93
+3	116	118
+
+Filter out kmers <= 21
+
+meryl greater-than 21 output RufipogonA.gt21.meryl RufipogonA.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opGreaterThan
+    threshold=21
+    RufipogonA.meryl
+    output to RufipogonA.gt21.meryl
+
+Cleaning up.
+
+Bye.
+
+Done: RufipogonA.gt21.meryl
+=== Generate spectra-cn plots per assemblies and get QV, k-mer completeness ===
+
+# Generate meryl db for RufipogonA.asm.primary
+
+Found 1 command tree.
+
+Counting 384 (estimated) million canonical 21-mers from 1 input file:
+    sequence-file: RufipogonA.asm.primary.fa
+
+
+SIMPLE MODE
+-----------
+
+  21-mers
+    -> 4398046511104 entries for counts up to 65535.
+    -> 64 Tbits memory used
+
+  402683835 input bases
+    -> expected max count of 1610735, needing 6 extra bits.
+    -> 24 Tbits memory used
+
+  11 TB memory needed
+
+
+COMPLEX MODE
+------------
+
+prefix     # of   struct   kmers/    segs/      min     data    total
+  bits   prefix   memory   prefix   prefix   memory   memory   memory
+------  -------  -------  -------  -------  -------  -------  -------
+     1     2  P  1975 kB    96 MM   123 kS  8192  B   984 MB   986 MB
+     2     4  P  1933 kB    48 MM    60 kS    16 kB   960 MB   962 MB
+     3     8  P  1897 kB    24 MM    29 kS    32 kB   936 MB   938 MB
+     4    16  P  1875 kB    12 MM    14 kS    64 kB   912 MB   914 MB
+     5    32  P  1878 kB  6144 kM  7110  S   128 kB   888 MB   890 MB
+     6    64  P  1931 kB  3072 kM  3458  S   256 kB   864 MB   866 MB
+     7   128  P  2085 kB  1536 kM  1681  S   512 kB   840 MB   842 MB
+     8   256  P  2442 kB   768 kM   817  S  1024 kB   817 MB   819 MB
+     9   512  P  3204 kB   384 kM   397  S  2048 kB   794 MB   797 MB
+    10  1024  P  4776 kB   192 kM   193  S  4096 kB   772 MB   776 MB  Best Value!
+    11  2048  P  7968 kB    96 kM    94  S  8192 kB   752 MB   759 MB
+    12  4096  P    14 MB    48 kM    46  S    16 MB   736 MB   750 MB
+    13  8192  P    26 MB    24 kM    22  S    32 MB   704 MB   730 MB
+    14    16 kP    51 MB    12 kM    11  S    64 MB   704 MB   755 MB
+    15    32 kP   102 MB  6145  M     6  S   128 MB   768 MB   870 MB
+    16    64 kP   203 MB  3073  M     3  S   256 MB   768 MB   971 MB
+    17   128 kP   406 MB  1537  M     2  S   512 MB  1024 MB  1430 MB
+    18   256 kP   810 MB   769  M     1  S  1024 MB  1024 MB  1834 MB
+    19   512 kP  1620 MB   385  M     1  S  2048 MB  2048 MB  3668 MB
+    20  1024 kP  3240 MB   193  M     1  S  4096 MB  4096 MB  7336 MB
+    21  2048 kP  6480 MB    97  M     1  S  8192 MB  8192 MB    14 GB
+    22  4096 kP    12 GB    49  M     1  S    16 GB    16 GB    28 GB
+
+
+FINAL CONFIGURATION
+-------------------
+
+Estimated to require 1546 MB memory out of 125 GB allowed.
+Estimated to require 2 batches.
+
+Configured complex mode for 1.510 GB memory per batch, and up to 2 batches.
+
+Start counting with THREADED method.
+Used 0.278 GB / 125.062 GB to store      2097130 kmers; need 1.141 GB to sort      1196239 kmers
+Used 0.365 GB / 125.062 GB to store     25165560 kmers; need 1.186 GB to sort      1243131 kmers
+Used 0.453 GB / 125.062 GB to store     48233969 kmers; need 1.231 GB to sort      1290830 kmers
+Used 0.508 GB / 125.062 GB to store     62913879 kmers; need 1.302 GB to sort      1365439 kmers
+Used 0.612 GB / 125.062 GB to store     90176548 kmers; need 1.330 GB to sort      1394625 kmers
+Used 0.737 GB / 125.062 GB to store    123730586 kmers; need 1.363 GB to sort      1429088 kmers
+Used 0.769 GB / 125.062 GB to store    132119106 kmers; need 2.345 GB to sort      2458619 kmers
+Used 0.817 GB / 125.062 GB to store    144701865 kmers; need 2.425 GB to sort      2542566 kmers
+Used 0.888 GB / 125.062 GB to store    163576035 kmers; need 2.549 GB to sort      2672464 kmers
+Used 0.992 GB / 125.062 GB to store    190838704 kmers; need 2.573 GB to sort      2697940 kmers
+Used 1.112 GB / 125.062 GB to store    222295612 kmers; need 2.579 GB to sort      2703783 kmers
+Used 1.215 GB / 125.062 GB to store    249558281 kmers; need 2.627 GB to sort      2755007 kmers
+Used 1.263 GB / 125.062 GB to store    262141040 kmers; need 3.536 GB to sort      3707765 kmers
+Used 1.311 GB / 125.062 GB to store    274723820 kmers; need 3.651 GB to sort      3828187 kmers
+Used 1.374 GB / 125.062 GB to store    291500860 kmers; need 3.730 GB to sort      3911296 kmers
+Used 1.486 GB / 125.062 GB to store    320860659 kmers; need 3.745 GB to sort      3927145 kmers
+Used 1.582 GB / 125.062 GB to store    346026198 kmers; need 3.776 GB to sort      3959089 kmers
+Used 1.693 GB / 125.062 GB to store    375385997 kmers; need 3.792 GB to sort      3976330 kmers
+Used 1.756 GB / 125.062 GB to store    392160328 kmers; need 3.858 GB to sort      4045766 kmers
+
+Input complete.  Writing results to 'RufipogonA.asm.primary.meryl', using 64 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+# Collect read counts per asm copies
+# Read only
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opDifference
+    RufipogonA.meryl
+    RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.0.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+# Copy 1 ~ 4
+Copy = 1 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.meryl
+    opEqualTo
+      threshold=1
+      RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.1.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy = 2 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.meryl
+    opEqualTo
+      threshold=2
+      RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.2.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy = 3 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.meryl
+    opEqualTo
+      threshold=3
+      RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.3.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy = 4 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.meryl
+    opEqualTo
+      threshold=4
+      RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.4.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy >4 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.meryl
+    opGreaterThan
+      threshold=4
+      RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.gt4.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+# Copy numbers in k-mers found only in asm
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opDifference
+    RufipogonA.asm.primary.meryl
+    RufipogonA.meryl
+    output to RufipogonA.asm.primary.0.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Plot RufipogonA_merqury.RufipogonA.asm.primary.spectra-cn.hist
+  Rscript /home/agostino/miniconda3/envs/merqury_env/share/merqury/plot/plot_spectra_cn.R -f RufipogonA_merqury.RufipogonA.asm.primary.spectra-cn.hist -o RufipogonA_merqury.RufipogonA.asm.primary.spectra-cn -z RufipogonA_merqury.RufipogonA.asm.primary.only.hist
+Loading required package: argparse
+Loading required package: ggplot2
+Loading required package: scales
+[1] "x_max: 147.5"
+[1] "y_max: 11696458.4"
+[1] "## Line graph"
+[1] "## Area under the curve filled"
+[1] "## Stacked"
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead. 
+
+# QV statistics
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Per seq QV statistics
+
+Estimating memory usage for 'RufipogonA.asm.primary.0.meryl/'.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878170618    32.000
+ 7            128         0     274878167176    32.000  (smallest)
+ 8            256         0     274878167190    32.000
+ 9            512         0     274878173988    32.000
+10           1024         0     274878194098    32.000
+11           2048         0     274878240320    32.000
+-- -------------- --------- ---------------- ---------
+             7026 total kmers
+
+For 7026 distinct 21-mers (with 7 bits used for indexing and 35 bits for tags):
+    0.000 GB memory for block indices -          128 elements 15 bits wide)
+    0.000 GB memory for block lengths -          128 elements 10 bits wide)
+    0.000 GB memory for kmer tags     -         7026 elements 35 bits wide)
+    0.000 GB memory for kmer values   -         7026 elements  1 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Memory required:  32.000 GB
+Memory limit:     125.562 GB
+
+Loading kmers from 'RufipogonA.asm.primary.0.meryl/' into lookup table.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878170618    32.000
+ 7            128         0     274878167176    32.000  (smallest)
+ 8            256         0     274878167190    32.000
+ 9            512         0     274878173988    32.000
+10           1024         0     274878194098    32.000
+11           2048         0     274878240320    32.000
+-- -------------- --------- ---------------- ---------
+             7026 total kmers
+
+For 7026 distinct 21-mers (with 7 bits used for indexing and 35 bits for tags):
+    0.000 GB memory for block indices -          128 elements 15 bits wide)
+    0.000 GB memory for block lengths -          128 elements 10 bits wide)
+    0.000 GB memory for kmer tags     -         7026 elements 35 bits wide)
+    0.000 GB memory for kmer values   -         7026 elements  1 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Counting size of buckets.
+
+
+Summing bucket sizes.
+  block indices are 15 bits wide -- sum lengths 23154 (including 16128 empty pointers)
+  block lengths are 9 bits wide -- max length  256
+
+Setting pointers.
+
+Will load 7026 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+
+Allocating space for 23154 kmer positions.
+  suffixes of  35 bits each ->       810390 bits (  0.000 GB) in blocks of  32.000 MB
+  values   of   1 bits each ->        23154 bits (  0.000 GB) in blocks of  32.000 MB
+
+Filling buckets.
+
+
+Loaded 7026 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+
+Opening inputs:
+  'RufipogonA.asm.primary.fa'
+
+Opening outputs:
+  '-'
+
+Bye!  (0 seconds to initialize and 9 seconds to compute)
+
+# k-mer completeness (recoveray rate) with solid k-mers for RufipogonA.asm.primary with > 21 counts
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.asm.primary.meryl
+    RufipogonA.gt21.meryl
+    output to RufipogonA.asm.primary.solid.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Generate RufipogonA.asm.primary_only.wig
+
+Estimating memory usage for 'RufipogonA.asm.primary.0.meryl'.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878170618    32.000
+ 7            128         0     274878167176    32.000  (smallest)
+ 8            256         0     274878167190    32.000
+ 9            512         0     274878173988    32.000
+10           1024         0     274878194098    32.000
+11           2048         0     274878240320    32.000
+-- -------------- --------- ---------------- ---------
+             7026 total kmers
+
+For 7026 distinct 21-mers (with 7 bits used for indexing and 35 bits for tags):
+    0.000 GB memory for block indices -          128 elements 15 bits wide)
+    0.000 GB memory for block lengths -          128 elements 10 bits wide)
+    0.000 GB memory for kmer tags     -         7026 elements 35 bits wide)
+    0.000 GB memory for kmer values   -         7026 elements  1 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Memory required:  32.000 GB
+Memory limit:     125.562 GB
+
+Loading kmers from 'RufipogonA.asm.primary.0.meryl' into lookup table.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878170618    32.000
+ 7            128         0     274878167176    32.000  (smallest)
+ 8            256         0     274878167190    32.000
+ 9            512         0     274878173988    32.000
+10           1024         0     274878194098    32.000
+11           2048         0     274878240320    32.000
+-- -------------- --------- ---------------- ---------
+             7026 total kmers
+
+For 7026 distinct 21-mers (with 7 bits used for indexing and 35 bits for tags):
+    0.000 GB memory for block indices -          128 elements 15 bits wide)
+    0.000 GB memory for block lengths -          128 elements 10 bits wide)
+    0.000 GB memory for kmer tags     -         7026 elements 35 bits wide)
+    0.000 GB memory for kmer values   -         7026 elements  1 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Counting size of buckets.
+
+
+Summing bucket sizes.
+  block indices are 15 bits wide -- sum lengths 23154 (including 16128 empty pointers)
+  block lengths are 9 bits wide -- max length  256
+
+Setting pointers.
+
+Will load 7026 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+
+Allocating space for 23154 kmer positions.
+  suffixes of  35 bits each ->       810390 bits (  0.000 GB) in blocks of  32.000 MB
+  values   of   1 bits each ->        23154 bits (  0.000 GB) in blocks of  32.000 MB
+
+Filling buckets.
+
+
+Loaded 7026 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+
+Opening inputs:
+  'RufipogonA.asm.primary.fa'
+
+Opening outputs:
+  '-'
+
+Bye!  (0 seconds to initialize and 9 seconds to compute)
+
+Estimating memory usage for 'RufipogonA.asm.primary.0.meryl'.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878170618    32.000
+ 7            128         0     274878167176    32.000  (smallest)
+ 8            256         0     274878167190    32.000
+ 9            512         0     274878173988    32.000
+10           1024         0     274878194098    32.000
+11           2048         0     274878240320    32.000
+-- -------------- --------- ---------------- ---------
+             7026 total kmers
+
+For 7026 distinct 21-mers (with 7 bits used for indexing and 35 bits for tags):
+    0.000 GB memory for block indices -          128 elements 15 bits wide)
+    0.000 GB memory for block lengths -          128 elements 10 bits wide)
+    0.000 GB memory for kmer tags     -         7026 elements 35 bits wide)
+    0.000 GB memory for kmer values   -         7026 elements  1 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Memory required:  32.000 GB
+Memory limit:     125.562 GB
+
+Loading kmers from 'RufipogonA.asm.primary.0.meryl' into lookup table.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878170618    32.000
+ 7            128         0     274878167176    32.000  (smallest)
+ 8            256         0     274878167190    32.000
+ 9            512         0     274878173988    32.000
+10           1024         0     274878194098    32.000
+11           2048         0     274878240320    32.000
+-- -------------- --------- ---------------- ---------
+             7026 total kmers
+
+For 7026 distinct 21-mers (with 7 bits used for indexing and 35 bits for tags):
+    0.000 GB memory for block indices -          128 elements 15 bits wide)
+    0.000 GB memory for block lengths -          128 elements 10 bits wide)
+    0.000 GB memory for kmer tags     -         7026 elements 35 bits wide)
+    0.000 GB memory for kmer values   -         7026 elements  1 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Counting size of buckets.
+
+
+Summing bucket sizes.
+  block indices are 15 bits wide -- sum lengths 23154 (including 16128 empty pointers)
+  block lengths are 9 bits wide -- max length  256
+
+Setting pointers.
+
+Will load 7026 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+
+Allocating space for 23154 kmer positions.
+  suffixes of  35 bits each ->       810390 bits (  0.000 GB) in blocks of  32.000 MB
+  values   of   1 bits each ->        23154 bits (  0.000 GB) in blocks of  32.000 MB
+
+Filling buckets.
+
+
+Loaded 7026 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+
+Opening inputs:
+  'RufipogonA.asm.primary.fa'
+
+Opening outputs:
+  '-'
+
+Bye!  (0 seconds to initialize and 9 seconds to compute)
+RufipogonA.asm.primary_only.wig generated.
+
+No asm2_fa given. Done.
+# RufipogonA.asm.primary only
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    RufipogonA.meryl
+    RufipogonA.asm.primary.meryl
+    output to read.k21.RufipogonA.asm.primary.meryl
+
+Cleaning up.
+
+Bye.
+# Write output
+
+Found 1 command tree.
+
+Found 1 command tree.
+# Get asm only for spectra-asm
+
+Found 1 command tree.
+#	Plot RufipogonA_merqury.spectra-asm.hist
+  Rscript /home/agostino/miniconda3/envs/merqury_env/share/merqury/plot/plot_spectra_cn.R -f RufipogonA_merqury.spectra-asm.hist -o RufipogonA_merqury.spectra-asm -z RufipogonA_merqury.dist_only.hist
+Loading required package: argparse
+Loading required package: ggplot2
+Loading required package: scales
+[1] "x_max: 147.5"
+[1] "y_max: 11700159.9"
+[1] "## Line graph"
+[1] "## Area under the curve filled"
+[1] "## Stacked"
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead. 
+
+# Clean up
+Done!

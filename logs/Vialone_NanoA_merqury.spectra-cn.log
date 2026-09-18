@@ -1,0 +1,588 @@
+Usage: spectra-cn.sh [-c] <read.meryl> <asm1.fasta> [asm2.fasta] out-prefix
+	-c		: [OPTIONAL] input meryl databases are homopolymer compressed, while asm.fasta isn't
+	<read.meryl>	: Generated with meryl count from i.e. illumina wgs reads
+	<asm1.fasta>	: haplotype 1 assembly. gzipped or not
+	[asm2.fasta]	: haplotype 2 assembly. gzipped or not
+	<out-prefix>: output prefix. Required.
+		When only <asm1.fasta> is given, results will be generated in haploid mode.
+		When <asm2.fasta> is given, results will be generated for each asm1 asm2 haploid assembly and asm1+asm2 diploid assembly.
+
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opLessThan
+    Vialone_NanoA.meryl
+    print to (stdout)
+Detected k-mer size 21
+
+No modules available..
+# Get solid k-mers
+Generate Vialone_NanoA.hist
+
+Found 1 command tree.
+
+java -jar -Xmx1g /home/agostino/miniconda3/envs/merqury_env/share/merqury/eval/kmerHistToPloidyDepth.jar Vialone_NanoA.hist > Vialone_NanoA.hist.ploidy
+Processing file Vialone_NanoA.hist
+Start sampling here: 21, 99404.0
+Estimated haploid peak here: 59, 9290597.0
+Next max here: 63, 1.0097162E7
+Next min here: 98, 112994.0
+Next max here: 121, 317718.0
+Stop sampling here: 148, 97365.0
+Running time : 0 h 0 m 0 sec
+
+ploidy	depth	boundary
+0	0	21
+1	59	61
+2	63	98
+3	121	148
+
+Filter out kmers <= 21
+
+meryl greater-than 21 output Vialone_NanoA.gt21.meryl Vialone_NanoA.meryl
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opGreaterThan
+    threshold=21
+    Vialone_NanoA.meryl
+    output to Vialone_NanoA.gt21.meryl
+
+Cleaning up.
+
+Bye.
+
+Done: Vialone_NanoA.gt21.meryl
+=== Generate spectra-cn plots per assemblies and get QV, k-mer completeness ===
+
+# Generate meryl db for Vialone_nanoA.asm.primary
+
+Found 1 command tree.
+
+Counting 384 (estimated) million canonical 21-mers from 1 input file:
+    sequence-file: Vialone_nanoA.asm.primary.fa
+
+
+SIMPLE MODE
+-----------
+
+  21-mers
+    -> 4398046511104 entries for counts up to 65535.
+    -> 64 Tbits memory used
+
+  403145630 input bases
+    -> expected max count of 1612582, needing 6 extra bits.
+    -> 24 Tbits memory used
+
+  11 TB memory needed
+
+
+COMPLEX MODE
+------------
+
+prefix     # of   struct   kmers/    segs/      min     data    total
+  bits   prefix   memory   prefix   prefix   memory   memory   memory
+------  -------  -------  -------  -------  -------  -------  -------
+     1     2  P  1977 kB    96 MM   123 kS  8192  B   985 MB   987 MB
+     2     4  P  1935 kB    48 MM    60 kS    16 kB   961 MB   963 MB
+     3     8  P  1900 kB    24 MM    29 kS    32 kB   937 MB   939 MB
+     4    16  P  1877 kB    12 MM    14 kS    64 kB   913 MB   915 MB
+     5    32  P  1880 kB  6151 kM  7118  S   128 kB   889 MB   891 MB
+     6    64  P  1933 kB  3075 kM  3462  S   256 kB   865 MB   867 MB
+     7   128  P  2087 kB  1537 kM  1683  S   512 kB   841 MB   843 MB
+     8   256  P  2444 kB   768 kM   818  S  1024 kB   818 MB   820 MB
+     9   512  P  3204 kB   384 kM   397  S  2048 kB   794 MB   797 MB
+    10  1024  P  4776 kB   192 kM   193  S  4096 kB   772 MB   776 MB  Best Value!
+    11  2048  P  7968 kB    96 kM    94  S  8192 kB   752 MB   759 MB
+    12  4096  P    14 MB    48 kM    46  S    16 MB   736 MB   750 MB
+    13  8192  P    26 MB    24 kM    22  S    32 MB   704 MB   730 MB
+    14    16 kP    51 MB    12 kM    11  S    64 MB   704 MB   755 MB
+    15    32 kP   102 MB  6152  M     6  S   128 MB   768 MB   870 MB
+    16    64 kP   203 MB  3076  M     3  S   256 MB   768 MB   971 MB
+    17   128 kP   406 MB  1538  M     2  S   512 MB  1024 MB  1430 MB
+    18   256 kP   810 MB   769  M     1  S  1024 MB  1024 MB  1834 MB
+    19   512 kP  1620 MB   385  M     1  S  2048 MB  2048 MB  3668 MB
+    20  1024 kP  3240 MB   193  M     1  S  4096 MB  4096 MB  7336 MB
+    21  2048 kP  6480 MB    97  M     1  S  8192 MB  8192 MB    14 GB
+    22  4096 kP    12 GB    49  M     1  S    16 GB    16 GB    28 GB
+
+
+FINAL CONFIGURATION
+-------------------
+
+Estimated to require 1546 MB memory out of 125 GB allowed.
+Estimated to require 2 batches.
+
+Configured complex mode for 1.510 GB memory per batch, and up to 2 batches.
+
+Start counting with THREADED method.
+Used 0.278 GB / 125.062 GB to store      2097130 kmers; need 1.090 GB to sort      1143096 kmers
+Used 0.325 GB / 125.062 GB to store     14679910 kmers; need 1.172 GB to sort      1228545 kmers
+Used 0.411 GB / 125.062 GB to store     37748319 kmers; need 1.243 GB to sort      1303670 kmers
+Used 0.491 GB / 125.062 GB to store     58719598 kmers; need 1.291 GB to sort      1353586 kmers
+Used 0.594 GB / 125.062 GB to store     85982267 kmers; need 1.331 GB to sort      1395467 kmers
+Used 0.681 GB / 125.062 GB to store    109050676 kmers; need 1.375 GB to sort      1441965 kmers
+Used 0.769 GB / 125.062 GB to store    132119085 kmers; need 2.091 GB to sort      2192136 kmers
+Used 0.777 GB / 125.062 GB to store    134216215 kmers; need 2.337 GB to sort      2450621 kmers
+Used 0.817 GB / 125.062 GB to store    144701844 kmers; need 2.446 GB to sort      2564546 kmers
+Used 0.896 GB / 125.062 GB to store    165673123 kmers; need 2.506 GB to sort      2627737 kmers
+Used 0.984 GB / 125.062 GB to store    188741553 kmers; need 2.543 GB to sort      2666372 kmers
+Used 1.062 GB / 125.062 GB to store    209712832 kmers; need 2.597 GB to sort      2723183 kmers
+Used 1.094 GB / 125.062 GB to store    218101331 kmers; need 2.692 GB to sort      2822274 kmers
+Used 1.223 GB / 125.062 GB to store    251655390 kmers; need 2.692 GB to sort      2822274 kmers
+Used 1.263 GB / 125.062 GB to store    262141019 kmers; need 3.411 GB to sort      3576900 kmers
+Used 1.287 GB / 125.062 GB to store    268432409 kmers; need 3.650 GB to sort      3826787 kmers
+Used 1.311 GB / 125.062 GB to store    274723799 kmers; need 3.754 GB to sort      3936630 kmers
+Used 1.343 GB / 125.062 GB to store    283112298 kmers; need 3.851 GB to sort      4037658 kmers
+Used 1.469 GB / 125.062 GB to store    316666315 kmers; need 3.852 GB to sort      4039492 kmers
+Used 1.590 GB / 125.062 GB to store    348123223 kmers; need 3.859 GB to sort      4045937 kmers
+Used 1.693 GB / 125.062 GB to store    375385892 kmers; need 3.880 GB to sort      4068623 kmers
+Used 1.765 GB / 125.062 GB to store    394254077 kmers; need 3.939 GB to sort      4130508 kmers
+
+Input complete.  Writing results to 'Vialone_nanoA.asm.primary.meryl', using 64 threads.
+finishIteration()--
+
+Finished counting.
+
+Cleaning up.
+
+Bye.
+
+# Collect read counts per asm copies
+# Read only
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opDifference
+    Vialone_NanoA.meryl
+    Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.0.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+# Copy 1 ~ 4
+Copy = 1 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_NanoA.meryl
+    opEqualTo
+      threshold=1
+      Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.1.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy = 2 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_NanoA.meryl
+    opEqualTo
+      threshold=2
+      Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.2.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy = 3 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_NanoA.meryl
+    opEqualTo
+      threshold=3
+      Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.3.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy = 4 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_NanoA.meryl
+    opEqualTo
+      threshold=4
+      Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.4.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Copy >4 ..
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_NanoA.meryl
+    opGreaterThan
+      threshold=4
+      Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.gt4.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+# Copy numbers in k-mers found only in asm
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opDifference
+    Vialone_nanoA.asm.primary.meryl
+    Vialone_NanoA.meryl
+    output to Vialone_nanoA.asm.primary.0.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Plot Vialone_NanoA_merqury.Vialone_nanoA.asm.primary.spectra-cn.hist
+  Rscript /home/agostino/miniconda3/envs/merqury_env/share/merqury/plot/plot_spectra_cn.R -f Vialone_NanoA_merqury.Vialone_nanoA.asm.primary.spectra-cn.hist -o Vialone_NanoA_merqury.Vialone_nanoA.asm.primary.spectra-cn -z Vialone_NanoA_merqury.Vialone_nanoA.asm.primary.only.hist
+Loading required package: argparse
+Loading required package: ggplot2
+Loading required package: scales
+[1] "x_max: 157.5"
+[1] "y_max: 11095433.8"
+[1] "## Line graph"
+[1] "## Area under the curve filled"
+[1] "## Stacked"
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead. 
+
+# QV statistics
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Per seq QV statistics
+
+Estimating memory usage for 'Vialone_nanoA.asm.primary.0.meryl/'.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878185472    32.000
+ 7            128         0     274878181824    32.000
+ 8            256         0     274878181632    32.000  (smallest)
+ 9            512         0     274878188224    32.000
+10           1024         0     274878208128    32.000
+11           2048         0     274878254144    32.000
+12           4096         0     274878351360    32.000
+-- -------------- --------- ---------------- ---------
+             7232 total kmers
+
+For 7232 distinct 21-mers (with 8 bits used for indexing and 34 bits for tags):
+    0.000 GB memory for block indices -          256 elements 15 bits wide)
+    0.000 GB memory for block lengths -          256 elements  9 bits wide)
+    0.000 GB memory for kmer tags     -         7232 elements 34 bits wide)
+    0.000 GB memory for kmer values   -         7232 elements  2 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Memory required:  32.000 GB
+Memory limit:     125.562 GB
+
+Loading kmers from 'Vialone_nanoA.asm.primary.0.meryl/' into lookup table.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878185472    32.000
+ 7            128         0     274878181824    32.000
+ 8            256         0     274878181632    32.000  (smallest)
+ 9            512         0     274878188224    32.000
+10           1024         0     274878208128    32.000
+11           2048         0     274878254144    32.000
+12           4096         0     274878351360    32.000
+-- -------------- --------- ---------------- ---------
+             7232 total kmers
+
+For 7232 distinct 21-mers (with 8 bits used for indexing and 34 bits for tags):
+    0.000 GB memory for block indices -          256 elements 15 bits wide)
+    0.000 GB memory for block lengths -          256 elements  9 bits wide)
+    0.000 GB memory for kmer tags     -         7232 elements 34 bits wide)
+    0.000 GB memory for kmer values   -         7232 elements  2 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Counting size of buckets.
+
+
+Summing bucket sizes.
+  block indices are 15 bits wide -- sum lengths 23360 (including 16128 empty pointers)
+  block lengths are 8 bits wide -- max length  197
+
+Setting pointers.
+
+Will load 7232 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+
+Allocating space for 23360 kmer positions.
+  suffixes of  34 bits each ->       794240 bits (  0.000 GB) in blocks of  32.000 MB
+  values   of   2 bits each ->        46720 bits (  0.000 GB) in blocks of  32.000 MB
+
+Filling buckets.
+
+
+Loaded 7232 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+
+Opening inputs:
+  'Vialone_nanoA.asm.primary.fa'
+
+Opening outputs:
+  '-'
+
+Bye!  (0 seconds to initialize and 7 seconds to compute)
+
+# k-mer completeness (recoveray rate) with solid k-mers for Vialone_nanoA.asm.primary with > 21 counts
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_nanoA.asm.primary.meryl
+    Vialone_NanoA.gt21.meryl
+    output to Vialone_nanoA.asm.primary.solid.meryl
+
+Cleaning up.
+
+Bye.
+
+Found 1 command tree.
+
+Found 1 command tree.
+
+# Generate Vialone_nanoA.asm.primary_only.wig
+
+Estimating memory usage for 'Vialone_nanoA.asm.primary.0.meryl'.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878185472    32.000
+ 7            128         0     274878181824    32.000
+ 8            256         0     274878181632    32.000  (smallest)
+ 9            512         0     274878188224    32.000
+10           1024         0     274878208128    32.000
+11           2048         0     274878254144    32.000
+12           4096         0     274878351360    32.000
+-- -------------- --------- ---------------- ---------
+             7232 total kmers
+
+For 7232 distinct 21-mers (with 8 bits used for indexing and 34 bits for tags):
+    0.000 GB memory for block indices -          256 elements 15 bits wide)
+    0.000 GB memory for block lengths -          256 elements  9 bits wide)
+    0.000 GB memory for kmer tags     -         7232 elements 34 bits wide)
+    0.000 GB memory for kmer values   -         7232 elements  2 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Memory required:  32.000 GB
+Memory limit:     125.562 GB
+
+Loading kmers from 'Vialone_nanoA.asm.primary.0.meryl' into lookup table.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878185472    32.000
+ 7            128         0     274878181824    32.000
+ 8            256         0     274878181632    32.000  (smallest)
+ 9            512         0     274878188224    32.000
+10           1024         0     274878208128    32.000
+11           2048         0     274878254144    32.000
+12           4096         0     274878351360    32.000
+-- -------------- --------- ---------------- ---------
+             7232 total kmers
+
+For 7232 distinct 21-mers (with 8 bits used for indexing and 34 bits for tags):
+    0.000 GB memory for block indices -          256 elements 15 bits wide)
+    0.000 GB memory for block lengths -          256 elements  9 bits wide)
+    0.000 GB memory for kmer tags     -         7232 elements 34 bits wide)
+    0.000 GB memory for kmer values   -         7232 elements  2 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Counting size of buckets.
+
+
+Summing bucket sizes.
+  block indices are 15 bits wide -- sum lengths 23360 (including 16128 empty pointers)
+  block lengths are 8 bits wide -- max length  197
+
+Setting pointers.
+
+Will load 7232 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+
+Allocating space for 23360 kmer positions.
+  suffixes of  34 bits each ->       794240 bits (  0.000 GB) in blocks of  32.000 MB
+  values   of   2 bits each ->        46720 bits (  0.000 GB) in blocks of  32.000 MB
+
+Filling buckets.
+
+
+
+Loaded 7232 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+
+Opening inputs:
+  'Vialone_nanoA.asm.primary.fa'
+
+Opening outputs:
+  '-'
+
+Bye!  (0 seconds to initialize and 7 seconds to compute)
+
+Estimating memory usage for 'Vialone_nanoA.asm.primary.0.meryl'.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878185472    32.000
+ 7            128         0     274878181824    32.000
+ 8            256         0     274878181632    32.000  (smallest)
+ 9            512         0     274878188224    32.000
+10           1024         0     274878208128    32.000
+11           2048         0     274878254144    32.000
+12           4096         0     274878351360    32.000
+-- -------------- --------- ---------------- ---------
+             7232 total kmers
+
+For 7232 distinct 21-mers (with 8 bits used for indexing and 34 bits for tags):
+    0.000 GB memory for block indices -          256 elements 15 bits wide)
+    0.000 GB memory for block lengths -          256 elements  9 bits wide)
+    0.000 GB memory for kmer tags     -         7232 elements 34 bits wide)
+    0.000 GB memory for kmer values   -         7232 elements  2 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Memory required:  32.000 GB
+Memory limit:     125.562 GB
+
+Loading kmers from 'Vialone_nanoA.asm.primary.0.meryl' into lookup table.
+
+ p         blocks   ent/blk             bits gigabytes (allowed: 125 GB)
+-- -------------- --------- ---------------- ---------
+ 6             64         0     274878185472    32.000
+ 7            128         0     274878181824    32.000
+ 8            256         0     274878181632    32.000  (smallest)
+ 9            512         0     274878188224    32.000
+10           1024         0     274878208128    32.000
+11           2048         0     274878254144    32.000
+12           4096         0     274878351360    32.000
+-- -------------- --------- ---------------- ---------
+             7232 total kmers
+
+For 7232 distinct 21-mers (with 8 bits used for indexing and 34 bits for tags):
+    0.000 GB memory for block indices -          256 elements 15 bits wide)
+    0.000 GB memory for block lengths -          256 elements  9 bits wide)
+    0.000 GB memory for kmer tags     -         7232 elements 34 bits wide)
+    0.000 GB memory for kmer values   -         7232 elements  2 bits wide)
+   32.000 GB memory for buffers
+   32.000 GB memory
+
+Counting size of buckets.
+
+
+Summing bucket sizes.
+  block indices are 15 bits wide -- sum lengths 23360 (including 16128 empty pointers)
+  block lengths are 8 bits wide -- max length  197
+
+Setting pointers.
+
+Will load 7232 kmers.  Skipping 0 (too low) and 0 (too high) kmers.
+
+Allocating space for 23360 kmer positions.
+  suffixes of  34 bits each ->       794240 bits (  0.000 GB) in blocks of  32.000 MB
+  values   of   2 bits each ->        46720 bits (  0.000 GB) in blocks of  32.000 MB
+
+Filling buckets.
+
+
+Loaded 7232 kmers.  Skipped 0 (too low) and 0 (too high) kmers.
+
+Opening inputs:
+  'Vialone_nanoA.asm.primary.fa'
+
+Opening outputs:
+  '-'
+
+Bye!  (0 seconds to initialize and 7 seconds to compute)
+Vialone_nanoA.asm.primary_only.wig generated.
+
+No asm2_fa given. Done.
+# Vialone_nanoA.asm.primary only
+
+Found 1 command tree.
+
+PROCESSING TREE #1 using 64 threads.
+  opIntersect
+    Vialone_NanoA.meryl
+    Vialone_nanoA.asm.primary.meryl
+    output to read.k21.Vialone_nanoA.asm.primary.meryl
+
+Cleaning up.
+
+Bye.
+# Write output
+
+Found 1 command tree.
+
+Found 1 command tree.
+# Get asm only for spectra-asm
+
+Found 1 command tree.
+#	Plot Vialone_NanoA_merqury.spectra-asm.hist
+  Rscript /home/agostino/miniconda3/envs/merqury_env/share/merqury/plot/plot_spectra_cn.R -f Vialone_NanoA_merqury.spectra-asm.hist -o Vialone_NanoA_merqury.spectra-asm -z Vialone_NanoA_merqury.dist_only.hist
+Loading required package: argparse
+Loading required package: ggplot2
+Loading required package: scales
+[1] "x_max: 157.5"
+[1] "y_max: 11102591.5"
+[1] "## Line graph"
+[1] "## Area under the curve filled"
+[1] "## Stacked"
+Warning messages:
+1: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead. 
+2: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead. 
+
+# Clean up
+Done!
